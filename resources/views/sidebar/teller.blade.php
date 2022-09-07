@@ -15,7 +15,7 @@
 </div>
 
 <div> 
-    <a href="">
+    <a href="{{ route('user.issue') }}">
         <i class='bx bx-exit'></i>
         <span class="links_name">Issue</span>
     </a>

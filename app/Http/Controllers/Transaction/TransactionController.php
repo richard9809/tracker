@@ -11,12 +11,40 @@ use PhpParser\Builder\Trait_;
 
 class TransactionController extends Controller
 {
+    function home()
+    {
+        if(Auth::user()->role == 'Admin')
+        {
+            $issued = Transaction::whereNotNull('issueDate')->count('id');
+            $returns = Transaction::whereNotNull('returnDate')->count('id');
+            $deposits = Transaction::sum('deposit');
+            $credits = Transaction::sum('AmountReturned');
+        }
+
+        if(Auth::user()->role == 'Teller')
+        {
+            $issued = Transaction::where('teller_id', '=', Auth::user()->id)->whereNotNull('issueDate')->count('id');
+            $returns = Transaction::where('teller_id', '=', Auth::user()->id)->whereNotNull('returnDate')->count('id');
+            $deposits = Transaction::where('teller_id', '=', Auth::user()->id)->sum('deposit');
+            $credits = Transaction::where('teller_id', '=', Auth::user()->id)->sum('AmountReturned');
+        }
+
+        if(Auth::user()->role == 'User')
+        {
+            $issued = Transaction::where('user_id', '=', Auth::user()->id)->whereNotNull('issueDate')->count('id');
+            $returns = Transaction::where('user_id', '=', Auth::user()->id)->whereNotNull('returnDate')->count('id');
+            $deposits = Transaction::where('user_id', '=', Auth::user()->id)->sum('deposit');
+            $credits = Transaction::where('user_id', '=', Auth::user()->id)->sum('AmountReturned');
+        }
+
+        return view('user.dashboard', ['issued' => $issued, 'returns' => $returns, 'deposits' => $deposits, 'credits' => $credits]);
+    }
     function index()
     {
         $transactions = Transaction::all();
-        $users = User::all();
+        $users = User::where('role', '=', 'User')->get();
 
-        return view('teller.return', compact('transactions', 'users'));
+        return view('user.return', compact('transactions', 'users'));
     }
 
     function store(Request $request)
@@ -25,13 +53,13 @@ class TransactionController extends Controller
             $transaction = new Transaction();
             $transaction->barcode = $barcode;
             $transaction->deposit = $request->deposit[$key];
-            $transaction->user_id = $request->customer_id;
+            $transaction->customer_id = $request->customer_id;
             $transaction->teller_id = Auth::user()->id;
             $transaction->issueDate = date('Y-m-d');
             $transaction->save();
         }
 
-        return redirect()->route('teller.issue');
+        return redirect()->route('user.issue');
     }
 
     function return(Request $request)

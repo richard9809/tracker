@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function show()
     {
         $products = Product::all();
-        $users = User::all();
+        $users = User::where('role', '=', 'User')->get();
 
         return view('user.issue', compact('products', 'users'));
     }

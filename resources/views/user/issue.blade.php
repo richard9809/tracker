@@ -11,7 +11,7 @@
                             <h4 style="float: left">Issue Product</h4>
                         </div>
 
-                        <form action="{{ route('teller.issueProduct') }}" method="post">
+                        <form action="{{ route('user.issueProduct') }}" method="post">
                             @csrf
                         <div class="card-body">
                             <table class="table table-bordered table-left">

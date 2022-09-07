@@ -12,71 +12,72 @@
             </div>
         </div>
 
-        <section class="content mt-2">
+        <section class="content">
             <div class="container-fluid">
-                <div class="row ">
-                    <div class="card bg-info col-md-3 col-6">
-                        <div class="small-box bg-info d-flex justify-content-between mt-2">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
                             <div class="inner text-white">
-                                <h3 class="font-weight-bold">150</h3>
+                                <h3 class="font-weight-bold">{{ $issued }}</h3>
                                 <p class="font-weight-normal">No. of Bottles Issued</p>
                             </div>
-                            <div class="icon " style="font-size: 3em;">
+                            <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                        </div>    
-                        <div class="footer text-center mb-1">
-                            <a href="#" class="small-box-footer" style="font-size: 1.2em; color: black;">More info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                        </div>                    
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-right"></i></a>
+                        </div>
                     </div>
-
-                    <div class="card bg-success col-lg-3 col-6">
-                        <div class="small-box bg-success d-flex justify-content-between mt-2">
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
                             <div class="inner text-white">
-                                <h3 class="font-weight-bold">120</h3>
-                                <p class="font-weight-normal">No. of Bottles Returned</p>
+                                <h3 class="">{{ $returns }}</h3>
+                                <p class="">No. of Bottles Returned</p>
                             </div>
-                            <div class="icon " style="font-size: 3em;">
+                            <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                        </div>    
-                        <div class="footer text-center mb-1">
-                            <a href="#" class="small-box-footer" style="font-size: 1.2em; color: black;">More info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                        </div>                    
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-right"></i></a>
+                        </div>
                     </div>
-
-                    <div class="card bg-warning col-lg-3 col-6">
-                        <div class="small-box bg-warning d-flex justify-content-between mt-2">
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
                             <div class="inner text-white">
-                                <h3 class="font-weight-bold">Shs. 2000</h3>
+                                <h3 class="font-weight-bold">Shs. {{ $deposits }}</h3>
                                 <p class="font-weight-normal">Deposits</p>
                             </div>
-                            <div class="icon " style="font-size: 3em;">
+                            <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                        </div>    
-                        <div class="footer text-center mb-1">
-                            <a href="#" class="small-box-footer" style="font-size: 1.2em; color: black;">More info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                        </div>                    
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-right"></i></a>
+                        </div>
                     </div>
-
-                    <div class="card bg-danger col-lg-3 col-6">
-                        <div class="small-box bg-danger d-flex justify-content-between mt-2">
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
                             <div class="inner text-white">
-                                <h3 class="font-weight-bold">Shs. 1500</h3>
+                                <h3 class="font-weight-bold">Shs. {{ $credits }}</h3>
                                 <p class="font-weight-normal">Credits</p>
                             </div>
-                            <div class="icon " style="font-size: 3em;">
+                            <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
                             </div>
-                        </div>    
-                        <div class="footer text-center mb-1">
-                            <a href="#" class="small-box-footer" style="font-size: 1.2em; color: black;">More info <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                        </div>                    
+                            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-right"></i></a>
+                        </div>
                     </div>
+                    <!-- ./col -->
                 </div>
             </div>
         </section>
+
+        
+
 
     </div>
 
@@ -87,7 +88,7 @@
         var today = new Date()
         var curHr = today.getHours()
 
-        if(curHr >= 0 && curHr < 9){
+        if(curHr >= 0 && curHr <= 9){
             document.getElementById("greetings").innerHTML = 'Good morning, {{ Auth::user()->fname }}';
         }else if(curHr >= 10 && curHr <= 11){
             document.getElementById("greetings").innerHTML = 'Good day, {{ Auth::user()->fname }} ';

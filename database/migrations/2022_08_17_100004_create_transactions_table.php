@@ -20,19 +20,19 @@ class CreateTransactionsTable extends Migration
             $table->integer('deposit');
             $table->date('returnDate')->nullable();
             $table->integer('AmountReturned')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('teller_id');
             $table->unsignedBigInteger('return_customer')->nullable();
             $table->unsignedBigInteger('return_teller')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')
+            $table->foreign('customer_id')
                     ->references('id')
                     ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->foreign('teller_id')
                     ->references('id')
-                    ->on('tellers')
+                    ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->foreign('return_customer')
@@ -42,7 +42,7 @@ class CreateTransactionsTable extends Migration
                     ->onDelete('cascade');
             $table->foreign('return_teller')
                     ->references('id')
-                    ->on('tellers')
+                    ->on('users')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             

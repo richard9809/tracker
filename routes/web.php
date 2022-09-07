@@ -28,7 +28,7 @@ Route::prefix('user')->name('user.')->group(function(){
     });
 
     Route::middleware(['auth:web', 'PreventBackHistory'])->group(function(){
-        Route::view('/userHome', 'user.dashboard')->name('userHome');
+        Route::get('/userHome', [TransactionController::class, 'home'])->name('userHome');
         Route::post('/logout', [UserController::class, 'logout'])->name('logout');
         Route::get('/product', [ProductController::class, 'index'])->name('product');
         Route::view('addProduct', 'user.addProduct')->name('addProduct');
@@ -42,6 +42,12 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::get('/editUser/{id}', [UserController::class, 'edit'])->name('editUser');
         Route::post('/updateUser', [UserController::class, 'update'])->name('updateUser');
         Route::get('/deleteUser/{id}', [UserController::class, 'delete'])->name('deleteUser');
+        Route::get('/issue', [ProductController::class, 'show'])->name('issue');
+        Route::post('/issueProduct', [TransactionController::class, 'store'])->name('issueProduct');
+        Route::get('/return', [TransactionController::class, 'index'])->name('return');
+        Route::post('/productReturn', [TransactionController::class, 'return'])->name('returnProduct');
+
+
     });
 
 });

@@ -15,7 +15,7 @@ class Transaction extends Model
         'deposit',
         'returnDate',
         'AmountReturned',
-        'user_id',
+        'customer_id',
         'teller_id',
         'return_customer',
         'return_teller'
@@ -33,7 +33,7 @@ class Transaction extends Model
 
     protected function getTeller()
     {
-        return $this->belongsTo(Teller::class);
+        return $this->belongsTo(User::class);
     }
 }
 
