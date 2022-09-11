@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Builder\Trait_;
+use App\Charts\DoughnutChart;
 
 class TransactionController extends Controller
 {
@@ -37,7 +38,12 @@ class TransactionController extends Controller
             $credits = Transaction::where('user_id', '=', Auth::user()->id)->sum('AmountReturned');
         }
 
-        return view('user.dashboard', ['issued' => $issued, 'returns' => $returns, 'deposits' => $deposits, 'credits' => $credits]);
+        $chart = new DoughnutChart;
+        $chart->labels(['Issued', 'Returned']);
+        $chart->dataset('issues', 'doughnut', $issued->values());
+        $chart->dataset('returns', 'doughnut', $returns->values());
+
+        return view('user.dashboard', ['issued' => $issued, 'returns' => $returns, 'deposits' => $deposits, 'credits' => $credits, 'chart' => $chart]);
     }
     function index()
     {

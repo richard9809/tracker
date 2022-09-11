@@ -18,6 +18,8 @@ class UserController extends Controller
             $users = User::where('role', '=', 'User')->get();
         }
 
+
+
         return view('user.users', compact('users'))
                     ->with('i', (request()->input('page', 1) -1) *5);
     }

@@ -23,7 +23,7 @@
 </div>
 
 <div> 
-    <a href="">
+    <a href="{{ route('user.return') }}">
         <i class='bx bxs-registered'></i>
         <span class="links_name">Return</span>
     </a>
