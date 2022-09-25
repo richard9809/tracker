@@ -222,6 +222,10 @@ body{
   left: 240px;
 }
 
+script {
+  display: none;
+}
+
 
 .row {
   display: -ms-flexbox;

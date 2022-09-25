@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Transaction;
 
+use App\Charts\BarChart;
+use App\Charts\BottleChart;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\User;
@@ -9,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Builder\Trait_;
 use App\Charts\DoughnutChart;
+use App\Charts\PieChart;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 class TransactionController extends Controller
 {
@@ -20,6 +24,26 @@ class TransactionController extends Controller
             $returns = Transaction::whereNotNull('returnDate')->count('id');
             $deposits = Transaction::sum('deposit');
             $credits = Transaction::sum('AmountReturned');
+
+            $Rdeposits = Transaction::groupBy('issueDate')
+                        ->selectRaw('sum(deposit) as sum, issueDate')
+                        ->pluck('sum', 'issueDate');
+            $RCredits = Transaction::groupBy('returnDate')
+                        ->selectRaw('sum(AmountReturned) as sum, returnDate')
+                        ->pluck('sum', 'returnDate');
+
+            $Bissued = Transaction::whereNotNull('issueDate')
+                        ->groupBy('issueDate')
+                        ->selectRaw('count(issueDate) as count, issueDate')
+                        ->pluck('count', 'issueDate');
+
+            $Breturns =  Transaction::whereNotNull('returnDate')
+                        ->groupBy('returnDate')
+                        ->selectRaw('count(returnDate) as count, returnDate')
+                        ->pluck('count', 'returnDate');
+
+            
+
         }
 
         if(Auth::user()->role == 'Teller')
@@ -27,23 +51,63 @@ class TransactionController extends Controller
             $issued = Transaction::where('teller_id', '=', Auth::user()->id)->whereNotNull('issueDate')->count('id');
             $returns = Transaction::where('teller_id', '=', Auth::user()->id)->whereNotNull('returnDate')->count('id');
             $deposits = Transaction::where('teller_id', '=', Auth::user()->id)->sum('deposit');
-            $credits = Transaction::where('teller_id', '=', Auth::user()->id)->sum('AmountReturned');
+            $credits = Transaction::where('return_teller', '=', Auth::user()->id)->sum('AmountReturned');
+
+            $Rdeposits = Transaction::where('teller_id', '=', Auth::user()->id)
+                        ->groupBy('issueDate')
+                        ->selectRaw('sum(deposit) as sum, issueDate')
+                        ->pluck('sum', 'issueDate');
+            $RCredits = Transaction::where('teller_id', '=', Auth::user()->id)
+                        ->groupBy('returnDate')
+                        ->selectRaw('sum(AmountReturned) as sum, returnDate')
+                        ->pluck('sum', 'returnDate');
+
+            
         }
 
         if(Auth::user()->role == 'User')
         {
-            $issued = Transaction::where('user_id', '=', Auth::user()->id)->whereNotNull('issueDate')->count('id');
-            $returns = Transaction::where('user_id', '=', Auth::user()->id)->whereNotNull('returnDate')->count('id');
-            $deposits = Transaction::where('user_id', '=', Auth::user()->id)->sum('deposit');
-            $credits = Transaction::where('user_id', '=', Auth::user()->id)->sum('AmountReturned');
+            $issued = Transaction::where('customer_id', '=', Auth::user()->id)->whereNotNull('issueDate')->count('id');
+            $returns = Transaction::where('customer_id', '=', Auth::user()->id)->whereNotNull('returnDate')->count('id');
+            $deposits = Transaction::where('customer_id', '=', Auth::user()->id)->sum('deposit');
+            $credits = Transaction::where('return_customer', '=', Auth::user()->id)->sum('AmountReturned');
+
+            $Rdeposits = Transaction::where('customer_id', '=', Auth::user()->id)
+                ->groupBy('issueDate')
+                ->selectRaw('sum(deposit) as sum, issueDate')
+                ->pluck('sum', 'issueDate');
+            $RCredits = Transaction::where('customer_id', '=', Auth::user()->id)
+                ->groupBy('returnDate')
+                ->selectRaw('sum(AmountReturned) as sum, returnDate')
+                ->pluck('sum', 'returnDate');
         }
 
-        $chart = new DoughnutChart;
-        $chart->labels(['Issued', 'Returned']);
-        $chart->dataset('issues', 'doughnut', $issued->values());
-        $chart->dataset('returns', 'doughnut', $returns->values());
+        $BottlesIssued = Transaction::whereNull('returnDate')
+                            ->groupBy('returnDate')
+                            ->selectRaw('count(returnDate) as count, returnDate')
+                            ->pluck('count');
 
-        return view('user.dashboard', ['issued' => $issued, 'returns' => $returns, 'deposits' => $deposits, 'credits' => $credits, 'chart' => $chart]);
+            $BottlesReturned = Transaction::whereNotNull('returnDate')
+                            ->groupBy('returnDate')
+                            ->selectRaw('count(returnDate) as count, returnDate')
+                            ->pluck('count');
+
+        $chart = new BarChart;
+        $chart->labels($Rdeposits->keys());
+        $chart->dataset('Deposits', 'bar', $Rdeposits->values())->backgroundColor('red');
+        $chart->dataset('Credits', 'bar', $RCredits->values())->backgroundColor('green');
+
+        $BottleChart = new BarChart;
+        $BottleChart->labels($Bissued->keys());
+        $BottleChart->dataset('Issued', 'bar', $Bissued->values())->backgroundColor('red');
+        $BottleChart->dataset('Returns', 'bar', $Breturns->values())->backgroundColor('green');
+
+        $Doughnut = new BarChart;
+        $Doughnut->labels($BottlesIssued->keys());
+        $Doughnut->dataset('Issued', 'doughnut', $BottlesIssued->values())->backgroundColor('red');
+        $Doughnut->dataset('Returns', 'doughnut', $BottlesReturned->values())->backgroundColor('green');
+
+        return view('user.dashboard', compact('issued', 'returns', 'deposits', 'credits', 'chart', 'BottleChart', 'Doughnut'));
     }
     function index()
     {

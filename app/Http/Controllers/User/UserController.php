@@ -18,8 +18,6 @@ class UserController extends Controller
             $users = User::where('role', '=', 'User')->get();
         }
 
-
-
         return view('user.users', compact('users'))
                     ->with('i', (request()->input('page', 1) -1) *5);
     }
@@ -28,7 +26,7 @@ class UserController extends Controller
         $request -> validate([
             'fname' => 'required',
             'lname' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email,except,id',
             'telephone' => 'required',
             'county' => 'required',
             'role' => 'required',
