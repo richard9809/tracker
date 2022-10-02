@@ -3,9 +3,9 @@
 @section('insider')
     <div class="content-wrapper mb-2 mr-2">
             <!-- Content Header (Page header) -->
-        <section class="content-header  mt-2 mr-2">
+        <section class="content-header mr-2">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-1">
                     <div class="col-sm-6">
                         <h1>View Products</h1>
                     </div>
@@ -25,24 +25,29 @@
                     <div class="card-header d-flex justify-content-between">
                         <h3 class="card-title">Products Table</h3>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm">
-                                <input type="text" name="table_search" class="form-control" placeholder="Search">
-                                <span class="input-group-prepend"><i class="input-group-text fa fa-search" aria-hidden="true"></i></span>
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-header -->
 
-                    <div class="card-body table-responsive p-0 ml-1">
-                        <table class="table table-hover text-nowrap">
+                    <div class="card-body table-responsive p-0 ml-1 mb-1"  style="height: 600px;">
+                        <table class="table table-head-fixed table-hover text-nowrap">
                             <thead>
-                            <tr>
-                                <th>Barcode No.</th>
-                                <th>Barcode</th>
-                                <th>Size</th>
-                                <th>Price</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <th>Barcode No.</th>
+                                    <th>Barcode</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             
                             @foreach ($products as $product)

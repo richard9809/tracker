@@ -210,6 +210,8 @@ body{
   background: #fff;
   margin: 12px;
   transition: all 0.5s ease;
+  scroll-behavior: smooth;
+  scroll-snap-type: mandatory;
 }
 
 .contents .text{
