@@ -80,7 +80,7 @@
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
 
-                    <div class="pull-left mr-2 mb-2">
+                    <div class="pull-left mr-2 mb-2 ml-4">
                         <a href="" class="text-warning">
                             <small>Forgot password?</small>
                         </a>

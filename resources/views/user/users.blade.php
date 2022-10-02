@@ -40,7 +40,7 @@
 
         <div class="row mr-2">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header d-flex justify-content-between">
                         @if (Auth::user()->role == 'Teller')
                             <h3 class="card-title">Customers Table</h3>  

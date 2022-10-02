@@ -46,6 +46,7 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::post('/issueProduct', [TransactionController::class, 'store'])->name('issueProduct');
         Route::get('/return', [TransactionController::class, 'index'])->name('return');
         Route::post('/productReturn', [TransactionController::class, 'return'])->name('returnProduct');
+        Route::get('/trial', [TransactionController::class, 'trialReturn'])->name('trial');
 
 
     });

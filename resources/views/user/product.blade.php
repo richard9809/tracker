@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('insider')
-    <div class="content-wrapper">
+    <div class="content-wrapper mb-2 mr-2">
             <!-- Content Header (Page header) -->
         <section class="content-header  mt-2 mr-2">
             <div class="container-fluid">
@@ -21,7 +21,7 @@
 
         <div class="row mr-2">
             <div class="col-12">
-                <div class="card">
+                <div class="card card-primary">
                     <div class="card-header d-flex justify-content-between">
                         <h3 class="card-title">Products Table</h3>
                         <div class="card-tools">

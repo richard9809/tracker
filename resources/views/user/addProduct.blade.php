@@ -22,13 +22,13 @@
         </section>
 
         <!-- Main content -->
-        <section class="content d-flex justify-content-center mt-2">
+        <section class="content mt-2">
             <div class="container-fluid">
                 <div class="row ">
                 <!-- left column -->
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     <!-- jquery validation -->
-                    <div class="card card-primary ">
+                    <div class="card card-primary">
                         <div class="card-header d-flex justify-content-center">
                             <h3 class="card-title">Add Product</h3>
                         </div>
@@ -68,7 +68,7 @@
                 <!--/.col (left) -->
                 <!-- right column -->
                 <div class="col-md-6">
-
+                    
                 </div>
                 <!--/.col (right) -->
                 </div>

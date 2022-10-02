@@ -6,12 +6,12 @@
         <div class="col-lg-12 mt-4">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h4 style="float: left">Return Product</h4>
                         </div>
 
-                        <form action="{{ route('teller.returnProduct') }}" method="POST">
+                        <form action="{{ route('user.returnProduct') }}" method="POST">
                             @csrf
                         <div class="card-body">
                             <table class="table table-bordered table-left">
@@ -33,9 +33,9 @@
                                         <td>
                                             <select name="barcodes[]" id=" barcodes" class="form-control barcodes">
                                                 <option value="">Select Item</option>
-                                                @foreach ($transactions as $transaction)
-                                                    <option data-deposit="{{ $transaction->deposit }}" data-Dateissued="{{ $transaction->issueDate }}" 
-                                                         value="{{ $transaction->barcode }}">{{ $transaction->barcode }}
+                                                @foreach ($issues as $issue)
+                                                    <option data-deposit="{{ $issue->deposit }}" data-Dateissued="{{ $issue->issueDate }}" value="{{ $issue->id }}">
+                                                        {{  $issue->barcode  }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h4>Total <b class="total pull-right"> 0.00 </b></h4>
                         </div>
