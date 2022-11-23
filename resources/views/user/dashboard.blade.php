@@ -107,7 +107,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="position-relative">
-                                    {!! $Doughnut->container() !!}
+
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,6 @@
 
         <div id="below-chart">
             {!! $chart->script() !!}
-            {!! $Doughnut->script() !!}
         </div>
 
     

@@ -38,7 +38,7 @@
                     </div>
                     <!-- /.card-header -->
 
-                    <div class="card-body table-responsive p-0 ml-1 mb-1"  style="height: 600px;">
+                    <div class="card-body table-responsive p-0 ml-1 mb-1"  style="height: 500px;">
                         <table class="table table-head-fixed table-hover text-nowrap">
                             <thead>
                                 <tr>
@@ -61,16 +61,13 @@
                                         <td>{{ $product->price }}</td>
                                         <td>
                                             <a href="{{ "edit/".$product['id'] }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                            
                                         </td>
                                     </tr>
                                 </tbody>
                             @endforeach
 
                         </table>
+
                     </div>
                 <!-- /.card-body -->
             </div>
@@ -80,25 +77,5 @@
         <!-- /.row -->
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                    <a href="{{ "delete/".$product['id'] }}" class="btn btn-danger">Yes</a>
-                </div>
-            </div>
-        </div>
-    </div>
     
 @endsection

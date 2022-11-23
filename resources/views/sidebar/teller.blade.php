@@ -30,7 +30,13 @@
     <span class="tooltip">Return</span>
 </div>
 
-
+<div>
+    <a href="{{ route('user.reports') }}">
+        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+        <span class="links_name">Reports</span>
+    </a>
+    <span class="tooltip">Reports</span>
+</div>
 
 <div class="profile-content mt-auto mx-auto">
     <div>

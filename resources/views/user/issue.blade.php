@@ -3,7 +3,7 @@
 @section('insider')
 
     <div class="container-fluid">
-        <div class="col-lg-12 mt-4">
+        <div class="col-lg-12">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card card-primary">
@@ -80,23 +80,26 @@
                             <div class="panel">
                                 <div class="row">
                                     <table class="table table-striped">
-                                        <tr>
-                                            <td>
-                                                <label for="">Customer Name</label>
-                                                <select name="customer_id" id="customer_id" class="form-control">
-                                                    <option value="">Choose Customer</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->fname }} {{ $user->lname }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <label for="">Teller Name</label>
-                                                <select name="teller_id" id="teller_id" class="form-control">
-                                                    <option hidden value="{{ Auth::user()->id }}">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</option>
-                                                </select>
-                                            </td>
-                                        </tr>
+                                        <tbody class="customer-details">
+                                            <tr>
+                                                <td>
+                                                    <label for="">Customer Name</label>
+                                                    <select name="customer_id" id="customer_id" class="form-control">
+                                                        <option value="">Choose Customer</option>
+                                                        @foreach ($customers as $customer)
+                                                            <option  value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </td>
+                                                <td>
+                                                    <label for="">Teller Name</label>
+                                                    <select name="teller_id" id="teller_id" class="form-control">
+                                                        <option hidden value="{{ Auth::user()->id }}">{{ Auth::user()->fname }} {{ Auth::user()->lname }}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
                                     </table>
 
                                     <td> Payment Method <br>
@@ -198,6 +201,14 @@
             var total_amount = prc + depo;
             tr.find('.total_amount').val(total_amount);
             TotalAmount();
+        });
+
+        $('.customer-details').delegate('.customer_id', 'change', function(){
+            var tr = $(this).parent().parent();
+            var email = tr.find('.customer_id option:selected').attr('data-email');
+            tr.find('.email').val(email);
+            var tele = tr.find('.customer_id option:selected').attr('data-telephone');
+            tr.find('.telephone').val(tele);
         });
 
         $('#paid_amount').keyup(function() {

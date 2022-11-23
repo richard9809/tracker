@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Teller\TellerController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Transaction\TransactionController;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -47,8 +48,9 @@ Route::prefix('user')->name('user.')->group(function(){
         Route::get('/return', [TransactionController::class, 'index'])->name('return');
         Route::post('/productReturn', [TransactionController::class, 'return'])->name('returnProduct');
         Route::get('/trial', [TransactionController::class, 'trialReturn'])->name('trial');
-
-
+        Route::get('/reports', [TransactionController::class, 'report'])->name('reports');
+        Route::get('/issueReports', [TransactionController::class, 'issueReports'])->name('issueReports');
+        Route::get('/returnReports', [TransactionController::class, 'returnReports'])->name('returnReports');
     });
 
 });

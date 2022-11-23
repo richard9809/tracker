@@ -23,7 +23,7 @@ class CreateIssuesTable extends Migration
             $table->timestamps();
             $table->foreign('customer_id')
                     ->references('id')
-                    ->on('users')
+                    ->on('customers')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             $table->foreign('teller_id')

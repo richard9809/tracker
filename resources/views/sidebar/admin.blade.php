@@ -23,11 +23,11 @@
                     </div>
 
                     <div>
-                        <a href="#">
-                            <i class='bx bx-money' ></i>
-                            <span class="links_name">Finance</span>
+                        <a href="{{ route('user.reports') }}">
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                            <span class="links_name">Reports</span>
                         </a>
-                        <span class="tooltip">Finance</span>
+                        <span class="tooltip">Reports</span>
                     </div>
 
                     <div class="profile-content mt-auto mx-auto">

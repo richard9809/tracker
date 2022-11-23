@@ -60,40 +60,74 @@
                     <!-- /.card-header -->
 
                     <div class="card-body table-responsive p-0 ml-1">
-                        <table class="table table-hover text-nowrap">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone No.</th>
-                                <th>County</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            
-                            @foreach ($users as $user)
-                                <tbody>
-                                    <tr>
-                                        <td>{{ ++$i }}</td>
-                                        <td>{{ $user->fname }} </td>
-                                        <td>{{ $user->lname }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->telephone }}</td>
-                                        <td>{{ $user->county }}</td>
-                                        <td>
-                                            <a href="{{ "editUser/".$user['id'] }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            @endforeach
+                        @if (Auth::user()->role == 'Admin')
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Phone No.</th>
+                                    <th>County</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                
+                                    @foreach ($users as $user)
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ ++$i }}</td>
+                                                <td>{{ $user->fname }} </td>
+                                                <td>{{ $user->lname }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->telephone }}</td>
+                                                <td>{{ $user->county }}</td>
+                                                <td>
+                                                    <a href="{{ "editUser/".$user['id'] }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    @endforeach
 
-                        </table>
+                                
+
+                            </table>
+                        @endif
+
+                        @if (Auth::user()->role == 'Teller')
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone No.</th>
+                                    <th>County</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                
+                                @foreach ($customers as $customer)
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $customer->name }} </td>
+                                            <td>{{ $customer->email }}</td>
+                                            <td>{{ $customer->telephone }}</td>
+                                            <td>{{ $customer->county }}</td>
+                                            <td>
+                                                <a href="{{ "editUser/".$customer['id'] }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                @endforeach
+                            </table>
+                        @endif
                     </div>
                 <!-- /.card-body -->
             </div>
@@ -105,32 +139,35 @@
     </div>    
     
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        @if (Auth::user()->role == 'Admin')
-                            Delete User
-                        @endif
+    @if (Auth::user()->role == 'Admin')
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            @if (Auth::user()->role == 'Admin')
+                                Delete User
+                            @endif
 
-                        @if (Auth::user()->role == 'Teller')
-                            Delete Customer
-                        @endif
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                    <a href="{{ "deleteUser/".$user['id'] }}" class="btn btn-danger">Yes</a>
+                            @if (Auth::user()->role == 'Teller')
+                                Delete Customer
+                            @endif
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                        <a href="{{ "deleteUser/".$user['id'] }}" class="btn btn-danger">Yes</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
 
 @endsection

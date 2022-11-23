@@ -9,15 +9,15 @@ use App\Models\Transaction;
 use App\Models\Issue;
 use App\Models\User;
 use App\Models\BReturn;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Builder\Trait_;
-use App\Charts\DoughnutChart;
-use App\Charts\PieChart;
-use App\Models\Product;
-use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
-use PHPUnit\Framework\ComparisonMethodDoesNotDeclareBoolReturnTypeException;
 use Illuminate\Support\Facades\DB;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Facades\Invoice;
+use Yajra\Datatables\Datatables;
 
 class TransactionController extends Controller
 {
@@ -74,41 +74,14 @@ class TransactionController extends Controller
                 ->pluck('sum', 'returnDate');
         }
 
-        $BottlesIssued = Transaction::whereNull('returnDate')
-                            ->groupBy('returnDate')
-                            ->selectRaw('count(returnDate) as count, returnDate')
-                            ->pluck('count');
-
-        $BottlesReturned = Transaction::whereNotNull('returnDate')
-                            ->groupBy('returnDate')
-                            ->selectRaw('count(returnDate) as count, returnDate')
-                            ->pluck('count');
-                            
         
-                            $Bissued = Transaction::whereNotNull('issueDate')
-                            ->groupBy('issueDate')
-                            ->selectRaw('count(issueDate) as count, issueDate')
-                            ->pluck('count', 'issueDate');
-    
-                $Breturns =  Transaction::whereNotNull('returnDate')
-                            ->groupBy('returnDate')
-                            ->selectRaw('count(returnDate) as count, returnDate')
-                            ->pluck('count', 'returnDate');
 
         $chart = new BarChart;
         $chart->labels($Rdeposits->keys());
         $chart->dataset('Deposits', 'bar', $Rdeposits->values())->backgroundColor('red');
         $chart->dataset('Credits', 'bar', $RCredits->values())->backgroundColor('green');
 
-        $BottleChart = new BarChart;
-        $BottleChart->labels($Bissued->keys());
-        $BottleChart->dataset('Issued', 'bar', $Bissued->values())->backgroundColor('red');
-        $BottleChart->dataset('Returns', 'bar', $Breturns->values())->backgroundColor('green');
-
-        $Doughnut = new BarChart;
-        $Doughnut->labels($BottlesIssued->keys());
-        $Doughnut->dataset('Issued', 'doughnut', $BottlesIssued->values())->backgroundColor('red');
-        $Doughnut->dataset('Returns', 'doughnut', $BottlesReturned->values())->backgroundColor('green');
+        
 
         //$returns = DB::table('issues')
         //            ->leftJoin('returns', 'issues.id', '=', 'returns.issue_id')
@@ -116,14 +89,14 @@ class TransactionController extends Controller
          //           ->whereNotNull('returnDate')
            //         ->count();
 
-        return view('user.dashboard', compact('issued', 'returns', 'deposits', 'credits', 'chart', 'BottleChart', 'Doughnut'));
+        return view('user.dashboard', compact('issued', 'returns', 'deposits', 'credits', 'chart'));
     }
     function index()
     {
         $issues = Issue::all();
-        $users = User::where('role', '=', 'User')->get();
+        $customers = Customer::all();
 
-        return view('user.return', compact('issues', 'users'));
+        return view('user.return', compact('issues', 'customers'));
     }
 
     function store(Request $request)
@@ -158,8 +131,69 @@ class TransactionController extends Controller
 
     function trialReturn(){
         $transactions = Transaction::all();
-        $users = User::where('role', '=', 'User')->get();
+        $users = User::where('role', '=', 'User');
 
         return view('user.trial', compact('transactions', 'users'));
+    }
+
+    function report(Request $request){
+        // $returned = BReturn::join('customers', 'returns.customer_id', '=', 'customers.id')
+        //                 ->join('issues', 'returns.issue_id', '=', 'issues.id')
+        //                 ->where('teller_id', '=', Auth::user()->id)
+        //                 ->select('issues.barcode as Barcode', 'returns.AmountReturned', 'customers.name as Customer', 'returns.returnDate')
+        //                 ->get();
+        
+        // return $returned;
+        
+        if(Auth::user()->role == 'Admin'){
+            if($request->ajax()){
+                $data = Customer::select('name', 'email', 'telephone', 'county');
+                return Datatables::of($data)->make(true);
+            }
+        }
+
+        return view('user.reports');
+    }
+
+    function issueReports(Request $request){
+
+        if($request->ajax()){
+            if(Auth::user()->role == 'Admin'){
+                $issues = Issue::join('users', 'issues.teller_id', '=', 'users.id')
+                    ->join('customers', 'issues.customer_id', '=', 'customers.id')
+                    ->select('issues.barcode','issues.deposit', 'customers.name as Customer', 'users.fname as Teller', 'issues.issueDate');
+                return Datatables::of($issues)->make(true);
+            }
+            if(Auth::user()->role == 'Teller'){
+                $issues = Issue::join('users', 'issues.teller_id', '=', 'users.id')
+                    ->join('customers', 'issues.customer_id', '=', 'customers.id')
+                    ->where('teller_id', '=', Auth::user()->id)
+                    ->select('issues.barcode','issues.deposit', 'customers.name as Customer', 'users.fname as Teller', 'issues.issueDate');
+                return Datatables::of($issues)->make(true);
+            }
+        }
+        return view('user.reports');
+    }
+
+    function returnReports(Request $request){
+        if($request->ajax()){
+            if(Auth::user()->role == 'Admin'){
+                $returned = BReturn::join('users', 'returns.teller_id', '=', 'users.id')
+                        ->join('customers', 'returns.customer_id', '=', 'customers.id')
+                        ->join('issues', 'returns.issue_id', '=', 'issues.id')
+                        ->select('issues.barcode as Barcode', 'returns.AmountReturned', 'customers.name as Customer', 'users.fname as Teller', 'returns.returnDate');
+                return Datatables::of($returned)->make(true);
+            }
+
+            if(Auth::user()->role == 'Teller'){
+                $returned = BReturn::join('users', 'returns.teller_id', '=', 'users.id')
+                        ->join('customers', 'returns.customer_id', '=', 'customers.id')
+                        ->join('issues', 'returns.issue_id', '=', 'issues.id')
+                        ->select('issues.barcode as Barcode', 'returns.AmountReturned', 'customers.name as Customer', 'users.fname as Teller', 'returns.returnDate')
+                        ->where('teller_id', '=', Auth::user()->id);
+                return Datatables::of($returned)->make(true);
+            }
+        }
+        return view('user.reports');
     }
 }

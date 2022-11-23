@@ -50,140 +50,232 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ route('user.checkCustomer') }}" method="POST">
-                            @csrf
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                      <label for="inputfname4">First Name</label>
-                                      <input type="text" class="form-control" id="inputfname4" name="fname" placeholder="First Name">
-                                      <div class="col-md-6">
-                                        <span class="text-danger ">@error('fname'){{ $message }}@enderror</span>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                      <label for="inputfname4">Last Name</label>
-                                      <input type="text" class="form-control" id="inputfname4" name="lname" placeholder="Last Name">
-                                      <div class="col-md-6">
-                                        <span class="text-danger ">@error('lname'){{ $message }}@enderror</span>
-                                      </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="inputemail4">Email</label>
-                                        <input type="email" class="form-control" id="inputemail4" name="email" placeholder="Email">
+                        @if (Auth::user()->role == 'Admin')
+                            <form action="{{ route('user.checkCustomer') }}" method="POST">
+                                @csrf
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                        <label for="inputfname4">First Name</label>
+                                        <input type="text" class="form-control" id="inputfname4" name="fname" placeholder="First Name">
                                         <div class="col-md-6">
-                                            <span class="text-danger ">@error('email'){{ $message }}@enderror</span>
+                                            <span class="text-danger ">@error('fname'){{ $message }}@enderror</span>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <label for="inputtel4">Telephone</label>
-                                        <input type="text" class="form-control" id="inputtel4" name="telephone" placeholder="Telephone">
-                                        <div class="invalid-feedback">
-                                            Please provide telephone number
                                         </div>
-                                    </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label for="inputcounty4">County</label>
-                                        <select id="inputcounty4" class="form-control" name="county">
-                                            <option selected>Choose...</option>
-                                            <option value="baringo">Baringo</option>
-                                            <option value="bomet">Bomet</option>
-                                            <option value="bungoma">Bungoma</option>
-                                            <option value="busia">Busia</option>
-                                            <option value="elgeyo marakwet">Elgeyo Marakwet</option>
-                                            <option value="embu">Embu</option>
-                                            <option value="garissa">Garissa</option>
-                                            <option value="homa bay">Homa Bay</option>
-                                            <option value="isiolo">Isiolo</option>
-                                            <option value="kajiado">Kajiado</option>
-                                            <option value="kakamega">Kakamega</option>
-                                            <option value="kericho">Kericho</option>
-                                            <option value="kiambu">Kiambu</option>
-                                            <option value="kilifi">Kilifi</option>
-                                            <option value="kirinyaga">Kirinyaga</option>
-                                            <option value="kisii">Kisii</option>
-                                            <option value="kisumu">Kisumu</option>
-                                            <option value="kitui">Kitui</option>
-                                            <option value="kwale">Kwale</option>
-                                            <option value="laikipia">Laikipia</option>
-                                            <option value="lamu">Lamu</option>
-                                            <option value="machakos">Machakos</option>
-                                            <option value="makueni">Makueni</option>
-                                            <option value="mandera">Mandera</option>
-                                            <option value="meru">Meru</option>
-                                            <option value="migori">Migori</option>
-                                            <option value="marsabit">Marsabit</option>
-                                            <option value="mombasa">Mombasa</option>
-                                            <option value="muranga">Muranga</option>
-                                            <option value="nairobi">Nairobi</option>
-                                            <option value="nakuru">Nakuru</option>
-                                            <option value="nandi">Nandi</option>
-                                            <option value="narok">Narok</option>
-                                            <option value="nyamira">Nyamira</option>
-                                            <option value="nyandarua">Nyandarua</option>
-                                            <option value="nyeri">Nyeri</option>
-                                            <option value="samburu">Samburu</option>
-                                            <option value="siaya">Siaya</option>
-                                            <option value="taita taveta">Taita Taveta</option>
-                                            <option value="tana river">Tana River</option>
-                                            <option value="tharaka nithi">Tharaka Nithi</option>
-                                            <option value="trans nzoia">Trans Nzoia</option>
-                                            <option value="turkana">Turkana</option>
-                                            <option value="uasin gishu">Uasin Gishu</option>
-                                            <option value="vihiga">Vihiga</option>
-                                            <option value="wajir">Wajir</option>
-                                            <option value="pokot">West Pokot</option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Please provide county
+                                        <div class="form-group col-md-6">
+                                        <label for="inputfname4">Last Name</label>
+                                        <input type="text" class="form-control" id="inputfname4" name="lname" placeholder="Last Name">
+                                        <div class="col-md-6">
+                                            <span class="text-danger ">@error('lname'){{ $message }}@enderror</span>
                                         </div>
-                                    </div>
+                                        </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label for="inputrole4">Role</label>
-                                        <select name="role" class="form-control" id="inputrole4">
-                                            <option selected>Choose...</option>
-                                            @if (Auth::user()->role == 'Admin')
+                                        <div class="form-group col-md-6">
+                                            <label for="inputemail4">Email</label>
+                                            <input type="email" class="form-control" id="inputemail4" name="email" placeholder="Email">
+                                            <div class="col-md-6">
+                                                <span class="text-danger ">@error('email'){{ $message }}@enderror</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputtel4">Telephone</label>
+                                            <input type="text" class="form-control" id="inputtel4" name="telephone" placeholder="Telephone">
+                                            <div class="invalid-feedback">
+                                                Please provide telephone number
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputcounty4">County</label>
+                                            <select id="inputcounty4" class="form-control" name="county">
+                                                <option selected>Choose...</option>
+                                                <option value="baringo">Baringo</option>
+                                                <option value="bomet">Bomet</option>
+                                                <option value="bungoma">Bungoma</option>
+                                                <option value="busia">Busia</option>
+                                                <option value="elgeyo marakwet">Elgeyo Marakwet</option>
+                                                <option value="embu">Embu</option>
+                                                <option value="garissa">Garissa</option>
+                                                <option value="homa bay">Homa Bay</option>
+                                                <option value="isiolo">Isiolo</option>
+                                                <option value="kajiado">Kajiado</option>
+                                                <option value="kakamega">Kakamega</option>
+                                                <option value="kericho">Kericho</option>
+                                                <option value="kiambu">Kiambu</option>
+                                                <option value="kilifi">Kilifi</option>
+                                                <option value="kirinyaga">Kirinyaga</option>
+                                                <option value="kisii">Kisii</option>
+                                                <option value="kisumu">Kisumu</option>
+                                                <option value="kitui">Kitui</option>
+                                                <option value="kwale">Kwale</option>
+                                                <option value="laikipia">Laikipia</option>
+                                                <option value="lamu">Lamu</option>
+                                                <option value="machakos">Machakos</option>
+                                                <option value="makueni">Makueni</option>
+                                                <option value="mandera">Mandera</option>
+                                                <option value="meru">Meru</option>
+                                                <option value="migori">Migori</option>
+                                                <option value="marsabit">Marsabit</option>
+                                                <option value="mombasa">Mombasa</option>
+                                                <option value="muranga">Muranga</option>
+                                                <option value="nairobi">Nairobi</option>
+                                                <option value="nakuru">Nakuru</option>
+                                                <option value="nandi">Nandi</option>
+                                                <option value="narok">Narok</option>
+                                                <option value="nyamira">Nyamira</option>
+                                                <option value="nyandarua">Nyandarua</option>
+                                                <option value="nyeri">Nyeri</option>
+                                                <option value="samburu">Samburu</option>
+                                                <option value="siaya">Siaya</option>
+                                                <option value="taita taveta">Taita Taveta</option>
+                                                <option value="tana river">Tana River</option>
+                                                <option value="tharaka nithi">Tharaka Nithi</option>
+                                                <option value="trans nzoia">Trans Nzoia</option>
+                                                <option value="turkana">Turkana</option>
+                                                <option value="uasin gishu">Uasin Gishu</option>
+                                                <option value="vihiga">Vihiga</option>
+                                                <option value="wajir">Wajir</option>
+                                                <option value="pokot">West Pokot</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please provide county
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputrole4">Role</label>
+                                            <select name="role" class="form-control" id="inputrole4">
+                                                <option selected>Choose...</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Teller">Teller</option>
-                                            @endif
-                                            @if (Auth::user()->role == 'Teller')
-                                                <option value="User">Customer</option>
-                                            @endif
-
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Please provide role
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please provide role
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label for="inputpass4">Password</label>
-                                        <input type="password" class="form-control" id="inputpass4" name="password" placeholder="Password" required>
-                                        <div class="invalid-feedback">
-                                            Please provide password
+                                        <div class="form-group col-md-6">
+                                            <label for="inputpass4">Password</label>
+                                            <input type="password" class="form-control" id="inputpass4" name="password" placeholder="Password" required>
+                                            <div class="invalid-feedback">
+                                                Please provide password
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label for="inputconfpass4">Confirm Password</label>
-                                        <input type="password" class="form-control" id="inputconfpass4" name="confpassword" placeholder="Confirm Password" required>
-                                        <div class="invalid-feedback">
-                                            Password should match
+                                        <div class="form-group col-md-6">
+                                            <label for="inputconfpass4">Confirm Password</label>
+                                            <input type="password" class="form-control" id="inputconfpass4" name="confpassword" placeholder="Confirm Password" required>
+                                            <div class="invalid-feedback">
+                                                Password should match
+                                            </div>
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        @endif
+
+                        @if (Auth::user()->role == 'Teller')
+                            <form action="{{ route('user.checkCustomer') }}" method="POST">
+                                @csrf
+                                <div class="card-body">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                        <label for="inputfname4">Name</label>
+                                        <input type="text" class="form-control" id="inputfname4" name="name" placeholder="Name">
+                                        <div class="col-md-6">
+                                            <span class="text-danger ">@error('name'){{ $message }}@enderror</span>
+                                        </div>
+                                        </div>
+
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputemail4">Email</label>
+                                            <input type="email" class="form-control" id="inputemail4" name="email" placeholder="Email">
+                                            <div class="col-md-6">
+                                                <span class="text-danger ">@error('email'){{ $message }}@enderror</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputtel4">Telephone</label>
+                                            <input type="text" class="form-control" id="inputtel4" name="telephone" placeholder="Telephone">
+                                            <div class="invalid-feedback">
+                                                Please provide telephone number
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="inputcounty4">County</label>
+                                            <select id="inputcounty4" class="form-control" name="county">
+                                                <option selected>Choose...</option>
+                                                <option value="baringo">Baringo</option>
+                                                <option value="bomet">Bomet</option>
+                                                <option value="bungoma">Bungoma</option>
+                                                <option value="busia">Busia</option>
+                                                <option value="elgeyo marakwet">Elgeyo Marakwet</option>
+                                                <option value="embu">Embu</option>
+                                                <option value="garissa">Garissa</option>
+                                                <option value="homa bay">Homa Bay</option>
+                                                <option value="isiolo">Isiolo</option>
+                                                <option value="kajiado">Kajiado</option>
+                                                <option value="kakamega">Kakamega</option>
+                                                <option value="kericho">Kericho</option>
+                                                <option value="kiambu">Kiambu</option>
+                                                <option value="kilifi">Kilifi</option>
+                                                <option value="kirinyaga">Kirinyaga</option>
+                                                <option value="kisii">Kisii</option>
+                                                <option value="kisumu">Kisumu</option>
+                                                <option value="kitui">Kitui</option>
+                                                <option value="kwale">Kwale</option>
+                                                <option value="laikipia">Laikipia</option>
+                                                <option value="lamu">Lamu</option>
+                                                <option value="machakos">Machakos</option>
+                                                <option value="makueni">Makueni</option>
+                                                <option value="mandera">Mandera</option>
+                                                <option value="meru">Meru</option>
+                                                <option value="migori">Migori</option>
+                                                <option value="marsabit">Marsabit</option>
+                                                <option value="mombasa">Mombasa</option>
+                                                <option value="muranga">Muranga</option>
+                                                <option value="nairobi">Nairobi</option>
+                                                <option value="nakuru">Nakuru</option>
+                                                <option value="nandi">Nandi</option>
+                                                <option value="narok">Narok</option>
+                                                <option value="nyamira">Nyamira</option>
+                                                <option value="nyandarua">Nyandarua</option>
+                                                <option value="nyeri">Nyeri</option>
+                                                <option value="samburu">Samburu</option>
+                                                <option value="siaya">Siaya</option>
+                                                <option value="taita taveta">Taita Taveta</option>
+                                                <option value="tana river">Tana River</option>
+                                                <option value="tharaka nithi">Tharaka Nithi</option>
+                                                <option value="trans nzoia">Trans Nzoia</option>
+                                                <option value="turkana">Turkana</option>
+                                                <option value="uasin gishu">Uasin Gishu</option>
+                                                <option value="vihiga">Vihiga</option>
+                                                <option value="wajir">Wajir</option>
+                                                <option value="pokot">West Pokot</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please provide county
+                                            </div>
+                                        </div>            
+
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                     <!-- /.card -->
                     </div>

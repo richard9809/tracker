@@ -78,8 +78,8 @@
                                                 <label for="">Customer Name</label>
                                                 <select name="customer_id" id="customer_id" class="form-control">
                                                     <option value="">Choose Customer</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->fname }} {{ $user->lname }}</option>
+                                                    @foreach ($customers as $customer)
+                                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>

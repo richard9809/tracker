@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 
@@ -21,9 +22,9 @@ class ProductController extends Controller
     public function show()
     {
         $products = Product::all();
-        $users = User::where('role', '=', 'User')->get();
+        $customers = Customer::all();
 
-        return view('user.issue', compact('products', 'users'));
+        return view('user.issue', compact('products', 'customers'));
     }
 
     function storeProduct(Request $request){
